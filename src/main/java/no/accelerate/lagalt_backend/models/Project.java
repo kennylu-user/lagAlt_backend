@@ -26,7 +26,7 @@ public class Project {
     @OneToMany(mappedBy = "project")
     Set<Application> applications;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "owner_id")
     private User owner;
     @ManyToMany(mappedBy = "projectsParticipated")
     private Set<User> members;

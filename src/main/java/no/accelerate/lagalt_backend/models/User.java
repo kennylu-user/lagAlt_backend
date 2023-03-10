@@ -1,4 +1,5 @@
 package no.accelerate.lagalt_backend.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,16 +23,14 @@ public class User {
     private String description;
     @OneToMany(mappedBy = "user")
     private Set<Application> applications;
-//    @OneToMany
-//    private Set<Project> projectsCreated;
-//    @ManyToMany
-//    private Set<Project>  projectsContributedTo;
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private Set<Project> projectsOwned;
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_projects_membership",
-            joinColumns = {@JoinColumn(name = "user_id")},
+            joinColumns = {@JoinColumn(name = "owner_id")},
             inverseJoinColumns = {@JoinColumn(name = "project_id")}
     )
     private Set<Project> projectsParticipated;
