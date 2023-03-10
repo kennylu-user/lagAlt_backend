@@ -23,10 +23,10 @@ public class User {
     private String description;
     @OneToMany(mappedBy = "user")
     private Set<Application> applications;
-    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private Set<Project> projectsOwned;
-    @JsonIgnore
+
+
     @ManyToMany
     @JoinTable(
             name = "user_projects_membership",
