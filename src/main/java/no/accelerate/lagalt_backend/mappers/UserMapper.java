@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {
     public abstract User userPostDtoToUser(UserPostDTO userDto);
-//    public abstract User userUpdateDtoToUser(UserUpdateDTO userUpdateDTO);
+    public abstract User userUpdateDtoToUser(UserUpdateDTO userUpdateDTO);
 
     // Mappings from character to DTO
     @Mapping(target = "projectsOwned", source = "projectsOwned", qualifiedByName = "projectsToIds")
