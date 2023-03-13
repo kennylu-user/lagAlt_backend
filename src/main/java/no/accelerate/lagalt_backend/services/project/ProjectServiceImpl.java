@@ -7,6 +7,8 @@ import no.accelerate.lagalt_backend.utils.error.exceptions.ProjectNotFoundExcept
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Set;
+
 @Service
 public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
@@ -42,4 +44,6 @@ public class ProjectServiceImpl implements ProjectService{
     public void deleteById(Integer id) {
         projectRepository.deleteById(id);
     }
+
+
 }

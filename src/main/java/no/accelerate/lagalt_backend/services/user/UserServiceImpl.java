@@ -1,11 +1,16 @@
 package no.accelerate.lagalt_backend.services.user;
 
+import no.accelerate.lagalt_backend.models.Application;
+import no.accelerate.lagalt_backend.models.Project;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
+import no.accelerate.lagalt_backend.utils.error.exceptions.ProjectNotFoundException;
 import no.accelerate.lagalt_backend.utils.error.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Set;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -39,8 +44,23 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Integer integer) {
         userRepository.deleteById(integer);
     }
+    @Override
+    public Set<Project> findAllProjectsOwned(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return user.getProjectsOwned();
+    }
 
+    @Override
+    public Set<Project> findAllProjectsParticipated(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return user.getProjectsParticipated();
+    }
 
+    @Override
+    public Set<Application> findAllUserApplications(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return user.getApplications();
+    }
 
 
 }
