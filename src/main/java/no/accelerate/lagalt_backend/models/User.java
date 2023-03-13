@@ -22,8 +22,6 @@ public class User {
     @Column(length = 100)
     private String description;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Contributor> contributions;
 
     @OneToMany(mappedBy = "user")
     private Set<Application> applications;
@@ -34,7 +32,7 @@ public class User {
     @ManyToMany
     @JoinTable(
             name = "user_projects_membership",
-            joinColumns = {@JoinColumn(name = "owner_id")},
+            joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "project_id")}
     )
     private Set<Project> projectsParticipated;

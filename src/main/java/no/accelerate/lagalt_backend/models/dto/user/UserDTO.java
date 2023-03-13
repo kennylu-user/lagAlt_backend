@@ -15,6 +15,6 @@ public class UserDTO {
     private String description;
     private Set<Integer> applications;
     private Set<Integer> projectsOwned;
-    private Set<Project> projectsParticipated;
+    private Set<Integer> projectsParticipated;
     private boolean hidden;
 }

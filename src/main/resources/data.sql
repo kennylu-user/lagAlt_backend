@@ -8,6 +8,9 @@ VALUES ('first','done','cool project',2);
 INSERT INTO project (description, status, title, owner_id)
 VALUES ('second','pending','bad project',2);
 
+INSERT INTO user_projects_membership (user_id, project_id)
+VALUES (1,2);
+
 INSERT INTO application (motivation, status, project_id, user_id)
 VALUES ('I want it that way', 'pending',1,1);
 INSERT INTO skill (id, title)

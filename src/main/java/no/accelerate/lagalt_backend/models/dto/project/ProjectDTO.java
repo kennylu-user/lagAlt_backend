@@ -13,7 +13,7 @@ public class ProjectDTO {
     private String title;
     private String description;
     private String status;
-    Set<Integer> applications;
+    private Set<Integer> applications;
     private int owner;
-    private Set<User> members;
+    private Set<Integer> members;
 }
