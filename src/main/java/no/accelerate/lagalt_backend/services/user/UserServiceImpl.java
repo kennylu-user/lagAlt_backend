@@ -2,6 +2,7 @@ package no.accelerate.lagalt_backend.services.user;
 
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
+import no.accelerate.lagalt_backend.utils.error.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -14,8 +15,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Integer integer) {
-        return userRepository.findById(integer).orElseThrow(() -> new RuntimeException());
+    public User findById(Integer id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
@@ -31,12 +32,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User entity) {
-
+        userRepository.save(entity);
     }
 
     @Override
     public void deleteById(Integer integer) {
-
+        userRepository.deleteById(integer);
     }
 
 
