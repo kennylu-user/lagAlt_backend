@@ -16,4 +16,5 @@ public class ProjectDTO {
     private Set<Integer> applications;
     private int owner;
     private Set<Integer> members;
+    private String img_url;
 }

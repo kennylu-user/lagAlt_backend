@@ -1,5 +1,6 @@
 package no.accelerate.lagalt_backend.services.project;
 
+import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.Project;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
@@ -46,4 +47,15 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
 
+    @Override
+    public Set<Application> findAllProjectApplications(int id) {
+        Project project = projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
+        return project.getApplications();
+    }
+
+    @Override
+    public Set<User> findAllMembers(int id) {
+        Project p = this.projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
+        return p.getMembers();
+    }
 }

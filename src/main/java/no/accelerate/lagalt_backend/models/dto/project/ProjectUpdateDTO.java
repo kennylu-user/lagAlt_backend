@@ -8,6 +8,6 @@ public class ProjectUpdateDTO {
     private String title;
     private String description;
     private String status;
-
+    private String img_url;
 
 }

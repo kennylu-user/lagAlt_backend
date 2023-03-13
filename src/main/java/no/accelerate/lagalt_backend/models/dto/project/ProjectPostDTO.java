@@ -11,4 +11,5 @@ public class ProjectPostDTO {
     private String description;
     private String status;
     private Integer owner;
+    private String img_url;
 }

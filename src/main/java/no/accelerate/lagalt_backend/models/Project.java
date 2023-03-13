@@ -21,6 +21,8 @@ public class Project {
     private String description;
     @Column(length = 100,nullable = false)
     private String status;
+    @Column(length = 254)
+    private String img_url;
 
 
     @OneToMany(mappedBy = "project")
