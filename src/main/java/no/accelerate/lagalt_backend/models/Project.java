@@ -15,20 +15,18 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(length = 50)
+    @Column(length = 50,nullable = false)
     private String title;
-    @Column(length = 500)
+    @Column(length = 500,nullable = false)
     private String description;
-    @Column(length = 100)
+    @Column(length = 100,nullable = false)
     private String status;
 
-    @OneToMany(mappedBy = "project")
-    Set<Contributor> contributors;
 
     @OneToMany(mappedBy = "project")
     Set<Application> applications;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id",nullable = false)
     private User owner;
     @ManyToMany(mappedBy = "projectsParticipated")
     private Set<User> members;
