@@ -21,6 +21,10 @@ public class User {
     private String l_name;
     @Column(length = 100)
     private String description;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Contributor> contributions;
+
     @OneToMany(mappedBy = "user")
     private Set<Application> applications;
     @OneToMany(mappedBy = "owner")
@@ -36,4 +40,16 @@ public class User {
     private Set<Project> projectsParticipated;
     private boolean hidden;
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_skill",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_id")}
+    )
+    private Set<Skill> skills;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 }

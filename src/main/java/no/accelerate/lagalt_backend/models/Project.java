@@ -1,5 +1,6 @@
 package no.accelerate.lagalt_backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class Project {
     @Column(length = 100,nullable = false)
     private String status;
 
+
     @OneToMany(mappedBy = "project")
     Set<Application> applications;
     @ManyToOne
@@ -28,4 +30,17 @@ public class Project {
     private User owner;
     @ManyToMany(mappedBy = "projectsParticipated")
     private Set<User> members;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "project_skill",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_id")}
+    )
+    private Set<Skill> skillsRequired;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "project")
+    private Set<Comment> comments;
 }
