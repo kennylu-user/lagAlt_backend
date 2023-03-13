@@ -1,9 +1,11 @@
 package no.accelerate.lagalt_backend.services.comment;
 
 import no.accelerate.lagalt_backend.models.Comment;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class CommentServiceImpl implements CommentService{
     @Override
     public Comment findById(Integer integer) {
