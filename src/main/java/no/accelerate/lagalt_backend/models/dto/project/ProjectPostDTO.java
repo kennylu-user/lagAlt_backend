@@ -10,5 +10,5 @@ public class ProjectPostDTO {
     private String title;
     private String description;
     private String status;
-    private User owner;
+    private Integer owner;
 }
