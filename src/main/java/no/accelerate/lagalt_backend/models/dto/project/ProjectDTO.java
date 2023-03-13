@@ -13,8 +13,7 @@ public class ProjectDTO {
     private String title;
     private String description;
     private String status;
-    Set<User> contributors;
-    Set<Application> applications;
+    Set<Integer> applications;
     private int owner;
     private Set<User> members;
 }

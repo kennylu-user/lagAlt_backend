@@ -5,7 +5,6 @@ import no.accelerate.lagalt_backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -16,7 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Integer integer) {
-        return null;
+        return userRepository.findById(integer).orElseThrow(() -> new RuntimeException());
     }
 
     @Override
@@ -26,7 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User entity) {
-        return null;
+        return userRepository.save(entity);
+
     }
 
     @Override
@@ -38,4 +38,8 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Integer integer) {
 
     }
+
+
+
+
 }
