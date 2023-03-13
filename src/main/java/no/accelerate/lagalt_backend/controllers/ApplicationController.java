@@ -5,140 +5,137 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import no.accelerate.lagalt_backend.mappers.ProjectMapper;
+import no.accelerate.lagalt_backend.mappers.ApplicationMapper;
+import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.Project;
-import no.accelerate.lagalt_backend.models.User;
+import no.accelerate.lagalt_backend.models.dto.application.ApplicationDTO;
+import no.accelerate.lagalt_backend.models.dto.application.ApplicationPostDTO;
+import no.accelerate.lagalt_backend.models.dto.application.ApplicationUpdateDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectPostDTO;
-import no.accelerate.lagalt_backend.models.dto.project.ProjectUpdateDTO;
-import no.accelerate.lagalt_backend.models.dto.user.UserPostDTO;
-import no.accelerate.lagalt_backend.services.project.ProjectService;
-import no.accelerate.lagalt_backend.services.user.UserService;
+import no.accelerate.lagalt_backend.services.application.ApplicationService;
 import no.accelerate.lagalt_backend.utils.error.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Set;
 
 @RestController
-@RequestMapping(path = "api/v1/project")
-public class ProjectController {
-    private final ProjectService projectService;
-    private final ProjectMapper projectMapper;
+@RequestMapping(path = "api/v1/application")
+public class ApplicationController {
 
-    public ProjectController(ProjectService projectService, ProjectMapper projectMapper) {
-        this.projectService = projectService;
-        this.projectMapper = projectMapper;
+    private final ApplicationMapper applicationMapper;
+    private final ApplicationService applicationService;
+
+    public ApplicationController(ApplicationMapper applicationMapper, ApplicationService applicationService) {
+        this.applicationMapper = applicationMapper;
+        this.applicationService = applicationService;
     }
 
-    @Operation(summary = "Get all projects")
+    @Operation(summary = "Get all applications")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                            schema = @Schema(implementation = Application.class)) }),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content ={ @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project not found",
+                    description = "Application not found",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping
     public ResponseEntity getAll() {
-        return ResponseEntity.ok(projectMapper.projectToProjectDto(projectService.findAll()));
+        return ResponseEntity.ok(applicationMapper.applicationToApplicationDto(applicationService.findAll()));
     }
-    @Operation(summary = "Adds new project")
+
+    @Operation(summary = "Adds new application")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "Project was successfully added",
+                    description = "Application was successfully added",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                            schema = @Schema(implementation = Application.class)) }),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project was not found with supplied ID",
+                    description = "Application was not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @PostMapping
-    public ResponseEntity add(@RequestBody ProjectPostDTO projectDto) {
-        Project p1 = projectService.add(projectMapper.projectPostDtoToProject(projectDto));
-        URI location = URI.create("project/" + p1.getId());
+    public ResponseEntity add(@RequestBody ApplicationPostDTO applicationDto) {
+        Application p1 = applicationService.add(applicationMapper.applicationPostDtoToApplication(applicationDto));
+        URI location = URI.create("application/" + p1.getId());
         return ResponseEntity.created(location).build();
     }
-    @Operation(summary = "Deletes an existing project by id")
-    @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Project was successfully deleted",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
-            @ApiResponse(responseCode = "400",
-                    description = "Malformed request",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404",
-                    description = "Project was not found with supplied ID",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) })
-    })
-    @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable int id) {
-        projectService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-    @Operation(summary = "Get a project by id")
+
+    @Operation(summary = "Get an application by id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                            schema = @Schema(implementation = Application.class)) }),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project not found with supplied ID",
+                    description = "Application not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("{id}")
     public ResponseEntity getById(@PathVariable int id) {
-        return ResponseEntity.ok(projectMapper.projectToProjectDto(projectService.findById(id)));
+        return ResponseEntity.ok(applicationMapper.applicationToApplicationDto(applicationService.findById(id)));
     }
-    @Operation(summary = "Updates a project")
+
+    @Operation(summary = "Updates an application")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "Project is successfully updated",
+                    description = "Application is successfully updated",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                            schema = @Schema(implementation = Application.class)) }),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project was not found with supplied ID",
+                    description = "Application was not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody ProjectUpdateDTO projectDTO, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody ApplicationUpdateDTO applicationDTO, @PathVariable int id) {
         // Validates if body is correct
-        if(id != projectDTO.getId())
+        if(id != applicationDTO.getId())
             return ResponseEntity.badRequest().build();
-        projectService.update(projectMapper.projectUpdateDtoToProject(projectDTO));
+        applicationService.update(applicationMapper.applicationUpdateDtoToApplication(applicationDTO));
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
-
-
-
+    @Operation(summary = "Deletes an existing application by id")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Application is successfully deleted",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Application.class)) }),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Application was not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable int id) {
+        applicationService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
