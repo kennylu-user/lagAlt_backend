@@ -11,5 +11,6 @@ import java.util.Set;
 public interface ProjectService extends CrudService<Project, Integer> {
     public Set<Application> findAllProjectApplications(int id);
     public Set<User> findAllMembers(int id);
+    public void updateMembers(int id, int[] user_id);
 
 }

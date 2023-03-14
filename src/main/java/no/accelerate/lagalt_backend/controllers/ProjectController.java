@@ -181,6 +181,25 @@ public class ProjectController {
     public ResponseEntity getAllProjectMembers(@PathVariable int id) {
         return ResponseEntity.ok(userMapper.userToUserDto(projectService.findAllMembers(id)));
     }
+    @Operation(summary = "Add existing users to project as members")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Project successfully updated",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/members")
+    public ResponseEntity updateMembers(@PathVariable int id,@RequestBody int[] user_id){
+        projectService.updateMembers(id,user_id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 
