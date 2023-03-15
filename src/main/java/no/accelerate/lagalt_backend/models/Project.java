@@ -36,9 +36,6 @@ public class Project {
     @ManyToMany(mappedBy = "projectsParticipated")
     private Set<User> members;
 
-
-
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "project_skill",
@@ -47,7 +44,6 @@ public class Project {
     )
     private Set<Skill> skillsRequired;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Comment> comments;
 }

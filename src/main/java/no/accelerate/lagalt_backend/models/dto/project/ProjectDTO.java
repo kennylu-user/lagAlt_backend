@@ -3,6 +3,8 @@ package no.accelerate.lagalt_backend.models.dto.project;
 import jakarta.persistence.*;
 import lombok.Data;
 import no.accelerate.lagalt_backend.models.Application;
+import no.accelerate.lagalt_backend.models.Comment;
+import no.accelerate.lagalt_backend.models.Skill;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.models.enums.Category;
 
@@ -19,4 +21,6 @@ public class ProjectDTO {
     private int owner;
     private Set<Integer> members;
     private String img_url;
+    private Set<Integer> comments;
+    private Set<Integer> skillsRequired;
 }

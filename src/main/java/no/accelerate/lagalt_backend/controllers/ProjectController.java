@@ -17,6 +17,7 @@ import no.accelerate.lagalt_backend.services.project.ProjectService;
 import no.accelerate.lagalt_backend.utils.error.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Set;
 
 import java.net.URI;
 
@@ -156,7 +157,7 @@ public class ProjectController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @PutMapping("{id}/projectApplications")
+    @GetMapping("{id}/projectApplications")
     public ResponseEntity getAllProjectApplications(@PathVariable int id) {
         return ResponseEntity.ok(applicationMapper.applicationToApplicationDto(projectService.findAllProjectApplications(id)));
     }
@@ -177,7 +178,7 @@ public class ProjectController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @PutMapping("{id}/projectMembers")
+    @GetMapping("{id}/projectMembers")
     public ResponseEntity getAllProjectMembers(@PathVariable int id) {
         return ResponseEntity.ok(userMapper.userToUserDto(projectService.findAllMembers(id)));
     }
@@ -196,10 +197,52 @@ public class ProjectController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @PutMapping("{id}/members")
-    public ResponseEntity updateMembers(@PathVariable int id,@RequestBody int[] user_id){
+    public ResponseEntity updateApplications(@PathVariable int id,@RequestBody Set<Integer> user_id){
         projectService.updateMembers(id,user_id);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Approve deny applications")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Project successfully updated",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/applications")
+    public ResponseEntity updateApplications(@PathVariable int id){
+        projectService.test(id);
+        return ResponseEntity.noContent().build();
+    }
+    @Operation(summary = "Remove existing users from project as members")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Project successfully updated",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/removeMembers")
+    public ResponseEntity removeMember(@PathVariable int id,@RequestBody Set<Integer> user_id){
+        projectService.removeMembersByIds(id,user_id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 
 
 

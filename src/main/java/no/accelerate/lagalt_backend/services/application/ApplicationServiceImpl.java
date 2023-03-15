@@ -4,8 +4,7 @@ import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.Project;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.repositories.ApplicationRepository;
-import no.accelerate.lagalt_backend.utils.error.exceptions.ApplicationNotFoundException;
-import no.accelerate.lagalt_backend.utils.error.exceptions.ProjectNotFoundException;
+import no.accelerate.lagalt_backend.utils.exceptions.ApplicationNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -45,5 +44,15 @@ public class ApplicationServiceImpl implements ApplicationService{
     @Override
     public void deleteById(Integer integer) {
         applicationRepository.deleteById(integer);
+    }
+
+    @Override
+    public void accept() {
+
+    }
+
+    @Override
+    public void deny() {
+
     }
 }
