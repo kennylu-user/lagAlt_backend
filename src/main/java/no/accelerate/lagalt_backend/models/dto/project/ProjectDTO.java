@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.User;
+import no.accelerate.lagalt_backend.models.enums.Category;
 
 import java.util.Set;
 
@@ -12,6 +13,7 @@ public class ProjectDTO {
     private int id;
     private String title;
     private String description;
+    private Category category;
     private String status;
     private Set<Integer> applications;
     private int owner;
