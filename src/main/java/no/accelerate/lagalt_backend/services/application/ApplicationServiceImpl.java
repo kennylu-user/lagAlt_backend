@@ -46,4 +46,14 @@ public class ApplicationServiceImpl implements ApplicationService{
     public void deleteById(Integer integer) {
         applicationRepository.deleteById(integer);
     }
+
+    @Override
+    public void accept() {
+
+    }
+
+    @Override
+    public void deny() {
+
+    }
 }

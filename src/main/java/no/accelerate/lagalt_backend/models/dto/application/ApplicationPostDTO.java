@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ApplicationPostDTO {
-    private int id;
+//    private int id;
     private String motivation;
-    private String status;
+//    private String status;
     private int user;
     private int project;
 }
