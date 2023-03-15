@@ -20,5 +20,11 @@ VALUES (1, 2);
 INSERT INTO project_skill (project_id, skill_id)
 VALUES (1, 1);
 
+INSERT INTO project_skill (project_id, skill_id)
+VALUES (1, 2);
+
 INSERT INTO comment (message, project_id, user_id)
 VALUES ('Hallloaooalooooo', 1, 1);
+
+INSERT INTO comment (message, project_id, user_id, replied_to_id)
+VALUES ('Hei!', 1, 2, 1);
