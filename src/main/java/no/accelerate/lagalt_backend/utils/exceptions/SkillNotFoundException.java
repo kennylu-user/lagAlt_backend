@@ -1,4 +1,4 @@
-package no.accelerate.lagalt_backend.utils.error.exceptions;
+package no.accelerate.lagalt_backend.utils.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
