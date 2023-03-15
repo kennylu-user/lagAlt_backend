@@ -12,7 +12,6 @@ public class Application {
     private int id;
     @Column(length = 200, nullable = false)
     private String motivation;
-    // Status is initially set to 'Pending'. An admin can set the applications to either 'Accepted' or 'Denied'
     @Column(columnDefinition = "varchar(20) default 'Pending'")
     private String status;
     @ManyToOne

@@ -30,12 +30,19 @@ public abstract class ProjectMapper {
 
     @Mapping(target = "owner", source = "owner", qualifiedByName = "userToIds")
     @Mapping(target = "applications", source = "applications", qualifiedByName = "applicationUserToIds")
+    @Mapping(target = "members", source = "members", qualifiedByName = "userMembersToIds")
     public abstract ProjectDTO projectToProjectDto(Project project);
 
     public abstract Collection<ProjectDTO> projectToProjectDto(Collection<Project> projects);
 
     @Named("applicationUserToIds")
     Set<Integer> map(Set<Application> source) {
+        if (source == null) return null;
+        return source.stream().map(u -> u.getId()
+        ).collect(Collectors.toSet());
+    }
+    @Named("userMembersToIds")
+    Set<Integer> membersToIds(Set<User> source) {
         if (source == null) return null;
         return source.stream().map(u -> u.getId()
         ).collect(Collectors.toSet());

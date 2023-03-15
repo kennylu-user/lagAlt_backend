@@ -1,33 +1,39 @@
 package no.accelerate.lagalt_backend.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import no.accelerate.lagalt_backend.mappers.ApplicationMapper;
 import no.accelerate.lagalt_backend.mappers.ProjectMapper;
+import no.accelerate.lagalt_backend.mappers.UserMapper;
 import no.accelerate.lagalt_backend.models.Project;
-import no.accelerate.lagalt_backend.models.User;
+import no.accelerate.lagalt_backend.models.dto.project.ProjectDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectPostDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectUpdateDTO;
-import no.accelerate.lagalt_backend.models.dto.user.UserPostDTO;
 import no.accelerate.lagalt_backend.services.project.ProjectService;
-import no.accelerate.lagalt_backend.services.user.UserService;
 import no.accelerate.lagalt_backend.utils.error.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "api/v1/project")
 public class ProjectController {
     private final ProjectService projectService;
     private final ProjectMapper projectMapper;
+    private final ApplicationMapper applicationMapper;
+    private final UserMapper userMapper;
 
-    public ProjectController(ProjectService projectService, ProjectMapper projectMapper) {
+    public ProjectController(ProjectService projectService, ProjectMapper projectMapper, ApplicationMapper applicationMapper, UserMapper userMapper) {
         this.projectService = projectService;
         this.projectMapper = projectMapper;
+        this.applicationMapper = applicationMapper;
+        this.userMapper = userMapper;
     }
 
     @Operation(summary = "Get all projects")
@@ -52,7 +58,7 @@ public class ProjectController {
     @Operation(summary = "Adds new project")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "User was successfully added",
+                    description = "Project was successfully added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Project.class)) }),
             @ApiResponse(responseCode = "400",
@@ -132,6 +138,71 @@ public class ProjectController {
         projectService.update(projectMapper.projectUpdateDtoToProject(projectDTO));
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Get all applications in project")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully retrieved all applications in project",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class))
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content ={ @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Project not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/projectApplications")
+    public ResponseEntity getAllProjectApplications(@PathVariable int id) {
+        return ResponseEntity.ok(applicationMapper.applicationToApplicationDto(projectService.findAllProjectApplications(id)));
+    }
+    @Operation(summary = "Get all members in project")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully retrieved all members in project",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class))
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content ={ @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Project not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/projectMembers")
+    public ResponseEntity getAllProjectMembers(@PathVariable int id) {
+        return ResponseEntity.ok(userMapper.userToUserDto(projectService.findAllMembers(id)));
+    }
+    @Operation(summary = "Add existing users to project as members")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Project successfully updated",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/members")
+    public ResponseEntity updateMembers(@PathVariable int id,@RequestBody int[] user_id){
+        projectService.updateMembers(id,user_id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 
 
 
