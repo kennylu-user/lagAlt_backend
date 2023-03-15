@@ -6,8 +6,8 @@ import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.repositories.ApplicationRepository;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
-import no.accelerate.lagalt_backend.utils.error.exceptions.ProjectNotFoundException;
-import no.accelerate.lagalt_backend.utils.error.exceptions.UserNotFoundException;
+import no.accelerate.lagalt_backend.utils.exceptions.ProjectNotFoundException;
+import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
