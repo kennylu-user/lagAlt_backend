@@ -1,8 +1,6 @@
 package no.accelerate.lagalt_backend.mappers;
 
-import no.accelerate.lagalt_backend.models.Application;
-import no.accelerate.lagalt_backend.models.Project;
-import no.accelerate.lagalt_backend.models.User;
+import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectPostDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectUpdateDTO;
@@ -31,6 +29,8 @@ public abstract class ProjectMapper {
     @Mapping(target = "owner", source = "owner", qualifiedByName = "userToIds")
     @Mapping(target = "applications", source = "applications", qualifiedByName = "applicationUserToIds")
     @Mapping(target = "members", source = "members", qualifiedByName = "userMembersToIds")
+    @Mapping(target = "comments", source = "comments", qualifiedByName = "commentsToIds")
+    @Mapping(target = "skillsRequired", source = "skillsRequired", qualifiedByName = "skillsToIds")
     public abstract ProjectDTO projectToProjectDto(Project project);
 
     public abstract Collection<ProjectDTO> projectToProjectDto(Collection<Project> projects);
@@ -56,5 +56,18 @@ public abstract class ProjectMapper {
     @Named("idToOwner")
     User mapToUser(Integer id) {
         return userService.findById(id);
+    }
+
+    @Named("commentsToIds")
+    Set<Integer> commentsToIds(Set<Comment> source) {
+        if (source == null) return null;
+        return source.stream().map(u -> u.getId()
+        ).collect(Collectors.toSet());
+    }
+    @Named("skillsToIds")
+    Set<Integer> skillsToIds(Set<Skill> source) {
+        if (source == null) return null;
+        return source.stream().map(u -> u.getId()
+        ).collect(Collectors.toSet());
     }
 }
