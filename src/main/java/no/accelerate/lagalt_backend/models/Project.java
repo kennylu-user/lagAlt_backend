@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import no.accelerate.lagalt_backend.models.enums.Category;
 
 import java.util.Set;
 
@@ -24,6 +25,8 @@ public class Project {
     @Column(length = 254)
     private String img_url;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @OneToMany(mappedBy = "project")
     Set<Application> applications;
@@ -32,6 +35,8 @@ public class Project {
     private User owner;
     @ManyToMany(mappedBy = "projectsParticipated")
     private Set<User> members;
+
+
 
     @JsonIgnore
     @ManyToMany

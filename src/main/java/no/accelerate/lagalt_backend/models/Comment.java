@@ -26,7 +26,10 @@ public class Comment {
     @JoinColumn
     private Project project;
 
-    @OneToMany
-    @JoinColumn
+    @ManyToOne
+    @JoinColumn(name = "replied_to_id")
+    private Comment repliedTo;
+
+    @OneToMany(mappedBy = "repliedTo", cascade = CascadeType.ALL)
     private Set<Comment> replies;
 }
