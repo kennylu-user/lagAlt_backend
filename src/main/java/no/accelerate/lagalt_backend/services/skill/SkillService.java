@@ -5,7 +5,6 @@ import no.accelerate.lagalt_backend.models.Skill;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.services.CrudService;
 
-import java.util.Collection;
 import java.util.Set;
 
 public interface SkillService extends CrudService<Skill, Integer> {

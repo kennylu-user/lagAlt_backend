@@ -13,11 +13,11 @@ VALUES (1,2);
 
 INSERT INTO application (motivation, status, project_id, user_id)
 VALUES ('I want it that way', 'pending',1,1);
-INSERT INTO skill (id, title)
-VALUES (1, 'Java');
+INSERT INTO skill (title)
+VALUES ('Java');
 
-INSERT INTO skill (id, title)
-VALUES (2, 'Spring');
+INSERT INTO skill (title)
+VALUES ('Spring');
 
 INSERT INTO user_skill (user_id, skill_id)
 VALUES (1, 2);
