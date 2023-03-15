@@ -13,7 +13,7 @@ public class Application {
     @Column(length = 200, nullable = false)
     private String motivation;
     @Column(columnDefinition = "varchar(20) default 'Pending'")
-    private String status;
+    private String status = "Pending";
     @ManyToOne
     @JoinColumn
     private User user;

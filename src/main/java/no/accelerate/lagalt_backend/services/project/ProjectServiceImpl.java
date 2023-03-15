@@ -3,6 +3,7 @@ package no.accelerate.lagalt_backend.services.project;
 import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.Project;
 import no.accelerate.lagalt_backend.models.User;
+import no.accelerate.lagalt_backend.repositories.ApplicationRepository;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
 import no.accelerate.lagalt_backend.utils.error.exceptions.ProjectNotFoundException;
@@ -18,9 +19,12 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository) {
+    private final ApplicationRepository applicationRepository;
+
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationRepository applicationRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
+        this.applicationRepository = applicationRepository;
     }
 
 
@@ -65,10 +69,9 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void updateMembers(int id, int[] user_ids) {
+    public void updateMembers(int id, Set<Integer> user_ids) {
         Project p = this.projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
         Set<User> members = new HashSet<>();
-        System.out.println(p.getMembers());
 
         for (int u_id : user_ids) {
             System.out.println(u_id);
@@ -80,10 +83,62 @@ public class ProjectServiceImpl implements ProjectService{
 
             userRepository.save(u);
         }
+        for (User user : p.getMembers()
+             ) {
+            members.add(user);
+
+        }
 
         p.setMembers(members);
 
-        System.out.println(p.getMembers());
+
+        projectRepository.save(p);
+
+    }
+
+    @Override
+    public void test(int id) {
+        Project p = this.findById(id);
+        Set<Integer> membersToBe = new HashSet<>();
+        for (Application a :p.getApplications()
+             ) {
+            if(a.getStatus().equals("APPROVED")){
+                membersToBe.add(a.getId());
+                a.setProject(null);
+            } else if (a.getStatus().equals("DENIED")) {
+                a.setProject(null);
+            }
+
+            applicationRepository.save(a);
+        }
+        this.updateMembers(id, membersToBe);
+        this.projectRepository.save(p);
+    }
+
+    @Override
+    public void removeMembersByIds(int id, Set<Integer> user_ids) {
+        Project p = this.projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
+        Set<User> members = new HashSet<>();
+
+        for (int u_id : user_ids) {
+            User u = userRepository.findById(u_id).orElseThrow(() -> new UserNotFoundException(u_id));
+            Set<Project> proj = u.getProjectsParticipated();
+            proj.remove(p);
+            u.setProjectsParticipated(proj);
+//            members.add(u);
+
+            userRepository.save(u);
+        }
+        for (User user : p.getMembers()
+        ) {
+            if(!user_ids.contains(user.getId())){
+
+                members.add(user);
+            }
+        }
+
+        p.setMembers(members);
+
 
         projectRepository.save(p);
 

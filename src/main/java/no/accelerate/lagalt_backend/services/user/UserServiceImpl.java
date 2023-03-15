@@ -62,5 +62,13 @@ public class UserServiceImpl implements UserService {
         return user.getApplications();
     }
 
+    @Override
+    public void applyToProject(Application applicationUpdateDtoToApplication) {
+
+        User user = applicationUpdateDtoToApplication.getUser();
+        user.getApplications().add(applicationUpdateDtoToApplication);
+        userRepository.save(user);
+    }
+
 
 }

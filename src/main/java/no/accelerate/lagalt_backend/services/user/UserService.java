@@ -12,4 +12,6 @@ public interface UserService extends CrudService<User,Integer> {
     public Set<Project> findAllProjectsOwned(int id);
     public Set<Project> findAllProjectsParticipated(int id);
     public Set<Application> findAllUserApplications(int id);
+
+    void applyToProject(Application applicationUpdateDtoToApplication);
 }
