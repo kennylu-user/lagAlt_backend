@@ -2,7 +2,10 @@ package no.accelerate.lagalt_backend.services.comment;
 
 import no.accelerate.lagalt_backend.models.Comment;
 import no.accelerate.lagalt_backend.repositories.CommentRepository;
-import no.accelerate.lagalt_backend.utils.exceptions.CommentNotFoundException;
+
+import no.accelerate.lagalt_backend.utils.error.exceptions.CommentNotFoundException;
+
+
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

@@ -10,6 +10,7 @@ import no.accelerate.lagalt_backend.mappers.ProjectMapper;
 import no.accelerate.lagalt_backend.mappers.SkillMapper;
 import no.accelerate.lagalt_backend.mappers.UserMapper;
 import no.accelerate.lagalt_backend.models.Skill;
+import no.accelerate.lagalt_backend.models.dto.project.ProjectDTO;
 import no.accelerate.lagalt_backend.models.dto.skill.SkillPostDTO;
 import no.accelerate.lagalt_backend.models.dto.skill.SkillUpdateDTO;
 import no.accelerate.lagalt_backend.models.dto.user.UserDTO;
@@ -43,7 +44,7 @@ public class SkillController {
         this.projectMapper = projectMapper;
     }
 
-    @Operation(summary = "Get all projects")
+    @Operation(summary = "Gets all skills")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -54,7 +55,7 @@ public class SkillController {
                     content ={ @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project not found",
+                    description = "Skill not found",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
@@ -62,10 +63,10 @@ public class SkillController {
     public ResponseEntity getAll() {
         return ResponseEntity.ok(skillMapper.skillToSkillDto(skillService.findAll()));
     }
-    @Operation(summary = "Adds new project")
+    @Operation(summary = "Adds a new skill")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "User was successfully added",
+                    description = "Skill was successfully added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Skill.class)) }),
             @ApiResponse(responseCode = "400",
@@ -73,7 +74,7 @@ public class SkillController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project was not found with supplied ID",
+                    description = "Skill was not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
@@ -83,10 +84,10 @@ public class SkillController {
         URI location = URI.create("skill/" + s1.getId());
         return ResponseEntity.created(location).build();
     }
-    @Operation(summary = "Deletes an existing project by id")
+    @Operation(summary = "Deletes an existing skill by id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "Project was successfully deleted",
+                    description = "Skill was successfully deleted",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Skill.class)) }),
             @ApiResponse(responseCode = "400",
@@ -94,7 +95,7 @@ public class SkillController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project was not found with supplied ID",
+                    description = "Skill was not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
@@ -103,7 +104,7 @@ public class SkillController {
         skillService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-    @Operation(summary = "Get a project by id")
+    @Operation(summary = "Get a skill by id")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
                     description = "Success",
@@ -114,7 +115,7 @@ public class SkillController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project not found with supplied ID",
+                    description = "Skill not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
@@ -122,10 +123,10 @@ public class SkillController {
     public ResponseEntity getById(@PathVariable int id) {
         return ResponseEntity.ok(skillMapper.skillToSkillDto(skillService.findById(id)));
     }
-    @Operation(summary = "Updates a project")
+    @Operation(summary = "Updates a skill")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "Project is successfully updated",
+                    description = "Skill is successfully updated",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Skill.class)) }),
             @ApiResponse(responseCode = "400",
@@ -133,7 +134,7 @@ public class SkillController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Project was not found with supplied ID",
+                    description = "Skill was not found with supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
@@ -146,7 +147,7 @@ public class SkillController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Update a Movie with a given id")
+    @Operation(summary = "Update the list of users that have a skill")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
@@ -165,14 +166,14 @@ public class SkillController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)) })
     })
-    //Updates characters in a movie.
+    //Updates users that have a skill.
     @PutMapping("{id}/users")
     public ResponseEntity updateUsers(@PathVariable int id, @RequestBody int[] user_ids){
         skillService.updateUsers(id, user_ids);
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Get a list of all characters that appear in a given movie")
+    @Operation(summary = "Get a list of all users that have a skill")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -201,7 +202,7 @@ public class SkillController {
                 ));
     }
 
-    @Operation(summary = "Update a Movie with a given id")
+    @Operation(summary = "Update the list of projects that require a skill")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
@@ -220,20 +221,20 @@ public class SkillController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)) })
     })
-    //Updates characters in a movie.
+    //Updates projects that require a skill.
     @PutMapping("{id}/projects")
     public ResponseEntity updateProjects(@PathVariable int id, @RequestBody int[] project_ids){
         skillService.updateProjects(id, project_ids);
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Get a list of all characters that appear in a given movie")
+    @Operation(summary = "Get a list of all projects that require a skill")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = {@Content(
                             mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class)))
+                            array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class)))
                     }),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
