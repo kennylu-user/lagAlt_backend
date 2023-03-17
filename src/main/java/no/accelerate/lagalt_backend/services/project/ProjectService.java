@@ -1,8 +1,6 @@
 package no.accelerate.lagalt_backend.services.project;
 
-import no.accelerate.lagalt_backend.models.Application;
-import no.accelerate.lagalt_backend.models.User;
-import no.accelerate.lagalt_backend.models.Project;
+import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.services.CrudService;
 
 import java.util.Set;
@@ -15,4 +13,8 @@ public interface ProjectService extends CrudService<Project, Integer> {
     public void test(int id);
 
     void removeMembersByIds(int id, Set<String> userId);
+
+    Set<Skill> findAllSkills(int id);
+
+    Set<Comment> findAllComments(int id);
 }

@@ -1,8 +1,6 @@
 package no.accelerate.lagalt_backend.services.project;
 
-import no.accelerate.lagalt_backend.models.Application;
-import no.accelerate.lagalt_backend.models.Project;
-import no.accelerate.lagalt_backend.models.User;
+import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.repositories.ApplicationRepository;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
@@ -142,6 +140,16 @@ public class ProjectServiceImpl implements ProjectService{
 
         projectRepository.save(p);
 
+    }
+
+    @Override
+    public Set<Skill> findAllSkills(int id) {
+        return this.findById(id).getSkillsRequired();
+    }
+
+    @Override
+    public Set<Comment> findAllComments(int id) {
+        return this.findById(id).getComments();
     }
 
 }

@@ -39,12 +39,13 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/webjars/**"
                         ).permitAll()
+//                        .requestMatchers("/api/v1/comment").hasRole("USER")
                         // Other endpoints may only be accessed by authenticated users
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(jwtAuthenticationConverter());
+                .jwt();
+                //.jwtAuthenticationConverter(jwtAuthenticationConverter());
 //                .headers()
 //                .xssProtection()
 //                .and()

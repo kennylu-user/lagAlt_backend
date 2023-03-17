@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<Comment> findAllComments(String id) {
-        return null;
+        return this.findById(id).getComments();
     }
 
 

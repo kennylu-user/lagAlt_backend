@@ -31,7 +31,7 @@ public class SkillServiceImpl implements SkillService{
 
     @Override
     public Skill findById(Integer integer) {
-        return skillRepository.findById(integer).orElseThrow(() -> new RuntimeException());
+        return skillRepository.findById(integer).orElseThrow(() -> new SkillNotFoundException(integer));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SkillServiceImpl implements SkillService{
 
     @Override
     public void deleteById(Integer integer) {
-
+        skillRepository.deleteById(integer);
     }
 
     @Override

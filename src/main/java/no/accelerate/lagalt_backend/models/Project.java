@@ -1,6 +1,5 @@
 package no.accelerate.lagalt_backend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class Project {
     private String description;
     @Column(length = 100,nullable = false)
     private String status;
-    @Column(length = 254)
+    @Column(length = 10000000)
     private String img_url;
 
     @Enumerated(EnumType.STRING)
