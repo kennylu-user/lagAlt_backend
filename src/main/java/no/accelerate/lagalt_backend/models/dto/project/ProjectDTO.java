@@ -18,8 +18,8 @@ public class ProjectDTO {
     private Category category;
     private String status;
     private Set<Integer> applications;
-    private int owner;
-    private Set<Integer> members;
+    private String owner;
+    private Set<String> members;
     private String img_url;
     private Set<Integer> comments;
     private Set<Integer> skillsRequired;

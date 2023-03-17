@@ -36,8 +36,8 @@ public abstract class ApplicationMapper {
 
 
     @Named("userToId")
-    int map(User source) {
-        if (source == null) return -1;
+    String map(User source) {
+        if (source == null) return null;
         return source.getId();
     }
 
@@ -47,7 +47,7 @@ public abstract class ApplicationMapper {
         return source.getId();
     }
     @Named("idToUser")
-    User mapToUser(Integer id) {
+    User mapToUser(String id) {
         return userService.findById(id);
     }
     @Named("idToProject")

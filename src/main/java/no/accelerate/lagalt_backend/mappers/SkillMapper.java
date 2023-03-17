@@ -26,7 +26,7 @@ public abstract class SkillMapper {
     public abstract Collection<SkillDTO> skillToSkillDto(Collection<Skill> skills);
 
     @Named("usersToIds")
-    Set<Integer> map1(Set<User> source) {
+    Set<String> map1(Set<User> source) {
         if (source == null) return null;
         return source.stream().map(p -> p.getId()
         ).collect(Collectors.toSet());

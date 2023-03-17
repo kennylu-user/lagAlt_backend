@@ -8,7 +8,7 @@ import java.util.Set;
 public class SkillDTO {
     private int id;
     private String title;
-    private Set<Integer> users;
+    private Set<String> users;
     private Set<Integer> projects;
 }
 

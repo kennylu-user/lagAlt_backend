@@ -8,7 +8,7 @@ import no.accelerate.lagalt_backend.services.CrudService;
 import java.util.Set;
 
 public interface SkillService extends CrudService<Skill, Integer> {
-    public void updateUsers(int skill_id, int[] user_ids);
+    public void updateUsers(int skill_id, String[] user_ids);
 
     public Set<User> findAllUsers(int skill_id);
 

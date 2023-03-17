@@ -6,9 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import no.accelerate.lagalt_backend.mappers.ApplicationMapper;
-import no.accelerate.lagalt_backend.mappers.ProjectMapper;
-import no.accelerate.lagalt_backend.mappers.UserMapper;
+import no.accelerate.lagalt_backend.mappers.*;
 import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.models.dto.application.ApplicationPostDTO;
@@ -32,15 +30,18 @@ public class UserController {
     private final ProjectService projectService;
     private final ProjectMapper projectMapper;
     private final ApplicationMapper applicationMapper;
-
+    private final SkillMapper skillMapper;
+    private final CommentMapper commentMapper;
     private final UserMapper userMapper;
     private final ApplicationService applicationService;
 
-    public UserController(UserService userService, ProjectService projectService, ProjectMapper projectMapper, ApplicationMapper applicationMapper, UserMapper userMapper, ApplicationService applicationService) {
+    public UserController(UserService userService, ProjectService projectService, ProjectMapper projectMapper, ApplicationMapper applicationMapper, SkillMapper skillMapper, CommentMapper commentMapper, UserMapper userMapper, ApplicationService applicationService) {
         this.userService = userService;
         this.projectService = projectService;
         this.projectMapper = projectMapper;
         this.applicationMapper = applicationMapper;
+        this.skillMapper = skillMapper;
+        this.commentMapper = commentMapper;
         this.userMapper = userMapper;
         this.applicationService = applicationService;
     }
@@ -102,7 +103,7 @@ public class UserController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("{id}")
-    public ResponseEntity getById(@PathVariable int id) {
+    public ResponseEntity getById(@PathVariable String id) {
         return ResponseEntity.ok(userMapper.userToUserDto(userService.findById(id)));
     }
     @Operation(summary = "Updates a user")
@@ -121,7 +122,7 @@ public class UserController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @PutMapping("{id}")
-    public ResponseEntity update(@RequestBody UserUpdateDTO userDTO, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody UserUpdateDTO userDTO, @PathVariable String id) {
         // Validates if body is correct
         if (id != userDTO.getId())
             return ResponseEntity.badRequest().build();
@@ -144,7 +145,7 @@ public class UserController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable int id) {
+    public ResponseEntity delete(@PathVariable String id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -167,7 +168,7 @@ public class UserController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("{id}/getProjectsOwned")
-    public ResponseEntity getAllProjectsOwned(@PathVariable int id) {
+    public ResponseEntity getAllProjectsOwned(@PathVariable String id) {
         return ResponseEntity.ok(projectMapper.projectToProjectDto(userService.findAllProjectsOwned(id)));
     }
 
@@ -189,7 +190,7 @@ public class UserController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("{id}/getProjectParticipated")
-    public ResponseEntity getAllProjectsParticipated(@PathVariable int id) {
+    public ResponseEntity getAllProjectsParticipated(@PathVariable String id) {
         return ResponseEntity.ok(projectMapper.projectToProjectDto(userService.findAllProjectsParticipated(id)));
     }
     @Operation(summary = "Get all user applications in user")
@@ -210,7 +211,7 @@ public class UserController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("{id}/getProjectApplications")
-    public ResponseEntity getAllUserApplications(@PathVariable int id) {
+    public ResponseEntity getAllUserApplications(@PathVariable String id) {
         return ResponseEntity.ok(applicationMapper.applicationToApplicationDto(userService.findAllUserApplications(id)));
     }
     @Operation(summary = "Add user application to project")
@@ -233,6 +234,49 @@ public class UserController {
         userService.applyToProject(applicationMapper.applicationPostDtoToApplication(applicationDTO));
         URI location = URI.create("application/" + application.getId());
         return ResponseEntity.created(location).build();
+    }
+
+    @Operation(summary = "Get all skills in user")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully retrieved all skills in user",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content ={ @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "User not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @GetMapping("{id}/getAllSkills")
+    public ResponseEntity getAllSkills(@PathVariable String id) {
+        return ResponseEntity.ok(skillMapper.skillToSkillDto(userService.findAllSkills(id)));
+    }
+    @Operation(summary = "Get all comments in user")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully retrieved all comments in user",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content ={ @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "User not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @GetMapping("{id}/getAllComments")
+    public ResponseEntity getAllComments(@PathVariable String id) {
+        return ResponseEntity.ok(commentMapper.commentToCommentDTO(userService.findAllComments(id)));
     }
 
 

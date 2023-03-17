@@ -1,9 +1,9 @@
-INSERT INTO users (f_name, l_name,description, hidden)
-VALUES ( 'ola','norman', 'test',false);
-INSERT INTO users (f_name, l_name,description, hidden)
-VALUES ( 'petter','haha', 'test2',false);
-INSERT INTO users (f_name, l_name,description, hidden)
-VALUES ( 'sug',' meg', 'Dyktig',false);
+INSERT INTO users (id,f_name, l_name,description, hidden)
+VALUES ( 1,'ola','norman', 'test',false);
+INSERT INTO users (id,f_name, l_name,description, hidden)
+VALUES ( 2,'petter','haha', 'test2',false);
+INSERT INTO users (id,f_name, l_name,description, hidden)
+VALUES ( 3,'sug',' meg', 'Dyktig',false);
 
 INSERT INTO project (description, status, category, title, owner_id)
 VALUES ('first','done', 'MUSIC', 'cool project',2);

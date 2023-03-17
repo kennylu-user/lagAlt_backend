@@ -197,7 +197,7 @@ public class ProjectController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @PutMapping("{id}/members")
-    public ResponseEntity updateApplications(@PathVariable int id,@RequestBody Set<Integer> user_id){
+    public ResponseEntity updateApplications(@PathVariable int id,@RequestBody Set<String> user_id){
         projectService.updateMembers(id,user_id);
         return ResponseEntity.noContent().build();
     }
@@ -236,7 +236,7 @@ public class ProjectController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @PutMapping("{id}/removeMembers")
-    public ResponseEntity removeMember(@PathVariable int id,@RequestBody Set<Integer> user_id){
+    public ResponseEntity removeMember(@PathVariable int id,@RequestBody Set<String> user_id){
         projectService.removeMembersByIds(id,user_id);
         return ResponseEntity.noContent().build();
     }
