@@ -271,7 +271,7 @@ public class ProjectController {
                     description = "Successfully retrieved all comments in user",
                     content = {@Content(
                             mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                            array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class))
                     )}),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
@@ -285,6 +285,27 @@ public class ProjectController {
     @GetMapping("{id}/getAllComments")
     public ResponseEntity getAllComments(@PathVariable int id) {
         return ResponseEntity.ok(commentMapper.commentToCommentDTO(projectService.findAllComments(id)));
+    }
+    @Operation(summary = "Get all tags in project")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully retrieved all comments in user",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class))
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content ={ @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "User not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @GetMapping("{id}/getAllTags")
+    public ResponseEntity getAllTags(@PathVariable int id) {
+        return ResponseEntity.ok(projectService.findAllTags(id));
     }
 
 

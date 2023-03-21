@@ -17,4 +17,5 @@ public interface ProjectService extends CrudService<Project, Integer> {
     Set<Skill> findAllSkills(int id);
 
     Set<Comment> findAllComments(int id);
+    Set<String> findAllTags(int id);
 }

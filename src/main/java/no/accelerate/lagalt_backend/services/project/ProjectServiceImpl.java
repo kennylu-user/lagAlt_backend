@@ -152,4 +152,9 @@ public class ProjectServiceImpl implements ProjectService{
         return this.findById(id).getComments();
     }
 
+    @Override
+    public Set<String> findAllTags(int id) {
+        return this.findById(id).getTags();
+    }
+
 }
