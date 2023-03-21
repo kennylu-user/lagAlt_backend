@@ -29,7 +29,7 @@ public class SecurityConfig {
                 // Enable security for http requests
                 .authorizeHttpRequests(authorize -> authorize
                         // Everyone gets to access endpoints for fetching projects
-                        .requestMatchers("/api/v1/project/**").hasRole("USER")
+                        .requestMatchers("/api/v1/project/**").permitAll()
                         // Allows access to overview of documented API endpoints through swagger
                         .requestMatchers(
                                 "/v3/api-docs/**",
@@ -41,7 +41,7 @@ public class SecurityConfig {
                         ).permitAll()
 //                        .requestMatchers("/api/v1/comment").hasRole("USER")
                         // Other endpoints may only be accessed by authenticated users
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer()
                 .jwt();
