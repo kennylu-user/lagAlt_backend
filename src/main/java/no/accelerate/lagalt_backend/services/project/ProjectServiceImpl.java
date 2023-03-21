@@ -1,6 +1,7 @@
 package no.accelerate.lagalt_backend.services.project;
 
 import no.accelerate.lagalt_backend.models.Application;
+import no.accelerate.lagalt_backend.models.Comment;
 import no.accelerate.lagalt_backend.models.Project;
 import no.accelerate.lagalt_backend.models.User;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
@@ -87,6 +88,12 @@ public class ProjectServiceImpl implements ProjectService{
 
         projectRepository.save(p);
 
+    }
+
+    @Override
+    public Set<Comment> getAllComments(int id) {
+        Project p = this.projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
+        return p.getComments();
     }
 
 }

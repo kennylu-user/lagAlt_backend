@@ -22,7 +22,7 @@ public class Project {
     private String description;
     @Column(length = 100,nullable = false)
     private String status;
-    @Column(length = 254)
+    @Column(length = 1000000)
     private String img_url;
 
     @Enumerated(EnumType.STRING)
@@ -36,9 +36,6 @@ public class Project {
     @ManyToMany(mappedBy = "projectsParticipated")
     private Set<User> members;
 
-
-
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "project_skill",
@@ -47,7 +44,6 @@ public class Project {
     )
     private Set<Skill> skillsRequired;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "project")
     private Set<Comment> comments;
 }

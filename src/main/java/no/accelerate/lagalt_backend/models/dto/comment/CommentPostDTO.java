@@ -9,5 +9,5 @@ public class CommentPostDTO {
     private String message;
     private int user;
     private int project;
-    private int repliedTo;
+    private Integer repliedTo;
 }

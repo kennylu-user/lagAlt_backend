@@ -77,6 +77,9 @@ public abstract class CommentMapper {
 
     @Named("idToRepliedTo")
     Comment mapToComment(Integer id) {
+        if (id == null) {
+            return null;
+        }
         return commentService.findById(id);
     }
 }

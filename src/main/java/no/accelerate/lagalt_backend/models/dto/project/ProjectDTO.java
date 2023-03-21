@@ -19,4 +19,6 @@ public class ProjectDTO {
     private int owner;
     private Set<Integer> members;
     private String img_url;
+    private Set<Integer> skillsRequired;
+    private Set<Integer> comments;
 }

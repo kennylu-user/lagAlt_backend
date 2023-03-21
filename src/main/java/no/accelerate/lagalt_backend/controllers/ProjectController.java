@@ -7,9 +7,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import no.accelerate.lagalt_backend.mappers.ApplicationMapper;
+import no.accelerate.lagalt_backend.mappers.CommentMapper;
 import no.accelerate.lagalt_backend.mappers.ProjectMapper;
 import no.accelerate.lagalt_backend.mappers.UserMapper;
 import no.accelerate.lagalt_backend.models.Project;
+import no.accelerate.lagalt_backend.models.dto.comment.CommentDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectPostDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectUpdateDTO;
@@ -28,12 +30,14 @@ public class ProjectController {
     private final ProjectMapper projectMapper;
     private final ApplicationMapper applicationMapper;
     private final UserMapper userMapper;
+    private final CommentMapper commentMapper;
 
-    public ProjectController(ProjectService projectService, ProjectMapper projectMapper, ApplicationMapper applicationMapper, UserMapper userMapper) {
+    public ProjectController(ProjectService projectService, ProjectMapper projectMapper, ApplicationMapper applicationMapper, UserMapper userMapper, CommentMapper commentMapper) {
         this.projectService = projectService;
         this.projectMapper = projectMapper;
         this.applicationMapper = applicationMapper;
         this.userMapper = userMapper;
+        this.commentMapper = commentMapper;
     }
 
     @Operation(summary = "Get all projects")
@@ -156,7 +160,7 @@ public class ProjectController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @PutMapping("{id}/projectApplications")
+    @GetMapping("{id}/projectApplications")
     public ResponseEntity getAllProjectApplications(@PathVariable int id) {
         return ResponseEntity.ok(applicationMapper.applicationToApplicationDto(projectService.findAllProjectApplications(id)));
     }
@@ -177,7 +181,7 @@ public class ProjectController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @PutMapping("{id}/projectMembers")
+    @GetMapping("{id}/projectMembers")
     public ResponseEntity getAllProjectMembers(@PathVariable int id) {
         return ResponseEntity.ok(userMapper.userToUserDto(projectService.findAllMembers(id)));
     }
@@ -201,6 +205,31 @@ public class ProjectController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get a list of all comments in a project")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Success",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = CommentDTO.class)))
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema=@Schema(implementation = ApiErrorResponse.class)
+                    )),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema=@Schema(implementation = ApiErrorResponse.class)
+                    )),
+    })
+    @GetMapping("{id}/comments")
+    public ResponseEntity getAllComments(@PathVariable int id) {
+        return ResponseEntity.ok(commentMapper.commentToCommentDTO(projectService.getAllComments(id)));
+    }
 
 
 
