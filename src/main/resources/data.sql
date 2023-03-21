@@ -10,6 +10,11 @@ VALUES ('first','done', 'MUSIC', 'cool project',2);
 INSERT INTO project (description, status, category, title, owner_id)
 VALUES ('second','pending', 'FILM', 'bad project',2);
 
+INSERT INTO project_tags (project_id,tags) VALUES (1,'Instrumental');
+INSERT INTO project_tags (project_id,tags) VALUES (1,'Sounds');
+INSERT INTO project_tags (project_id,tags) VALUES (2,'Movies');
+INSERT INTO project_tags (project_id,tags) VALUES (2,'Action');
+
 INSERT INTO user_projects_membership (user_id, project_id)
 VALUES (1,2);
 
@@ -26,6 +31,13 @@ VALUES ('Java');
 INSERT INTO skill (title)
 VALUES ('Spring');
 
+INSERT INTO skill (title)
+VALUES ('Python');
+
+
+INSERT INTO skill (title)
+VALUES ('Kamera');
+
 INSERT INTO user_skill (user_id, skill_id)
 VALUES (1, 2);
 
@@ -40,3 +52,7 @@ VALUES ('Hallloaooalooooo', 1, 1);
 
 INSERT INTO comment (message, project_id, user_id, replied_to_id)
 VALUES ('Hei!', 1, 2, 1);
+
+
+
+

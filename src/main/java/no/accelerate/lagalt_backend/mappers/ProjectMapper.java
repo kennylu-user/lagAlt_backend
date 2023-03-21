@@ -19,10 +19,12 @@ public abstract class ProjectMapper {
     @Autowired
     UserService userService;
     @Mapping(target = "owner", source = "owner", qualifiedByName = "idToOwner")
+    @Mapping(target = "skillsRequired", ignore = true)
     public abstract Project projectPostDtoToProject(ProjectPostDTO projectDto);
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "applications", ignore = true)
     @Mapping(target = "members", ignore = true)
+    @Mapping(target = "skillsRequired", ignore = true)
     public abstract Project projectUpdateDtoToProject(ProjectUpdateDTO projectUpdateDTO);
 
     @Mapping(target = "owner", source = "owner", qualifiedByName = "userToIds")

@@ -45,4 +45,8 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private Set<Comment> comments;
+
+    @ElementCollection
+    private Set<String> tags;
+
 }

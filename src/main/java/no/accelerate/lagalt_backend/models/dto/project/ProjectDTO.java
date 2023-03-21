@@ -23,4 +23,5 @@ public class ProjectDTO {
     private String img_url;
     private Set<Integer> comments;
     private Set<Integer> skillsRequired;
+    private Set<String> tags;
 }
