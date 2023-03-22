@@ -11,8 +11,8 @@ import java.util.Set;
 @Setter
 @Table(name = "users")
 public class User {
-    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(unique = true, nullable = false, updatable = false)
     private String id;
 
