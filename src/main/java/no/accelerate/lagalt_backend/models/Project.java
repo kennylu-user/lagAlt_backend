@@ -27,6 +27,8 @@ public class Project {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @ElementCollection
+    private Set<String> tags;
     @OneToMany(mappedBy = "project")
     Set<Application> applications;
     @ManyToOne
@@ -46,7 +48,6 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private Set<Comment> comments;
 
-    @ElementCollection
-    private Set<String> tags;
+
 
 }
