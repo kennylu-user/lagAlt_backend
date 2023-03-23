@@ -21,7 +21,7 @@ public class Project {
     private String description;
     @Column(length = 100,nullable = false)
     private String status;
-    @Column(length = 10000000)
+    @Column(length = 1000000)
     private String img_url;
 
     @Enumerated(EnumType.STRING)

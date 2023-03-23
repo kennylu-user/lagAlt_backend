@@ -16,6 +16,6 @@ public class ProjectPostDTO {
     private String status;
     private String owner;
     private String img_url;
-    private Set<Integer> skillsRequired;
+    private Set<String> skillsRequired;
     private Set<String> tags;
 }

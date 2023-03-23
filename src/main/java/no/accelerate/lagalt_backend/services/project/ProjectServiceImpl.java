@@ -3,10 +3,13 @@ package no.accelerate.lagalt_backend.services.project;
 import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.repositories.ApplicationRepository;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
+import no.accelerate.lagalt_backend.repositories.SkillRepository;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
+import no.accelerate.lagalt_backend.services.skill.SkillService;
 import no.accelerate.lagalt_backend.services.application.ApplicationService;
 import no.accelerate.lagalt_backend.services.comment.CommentService;
 import no.accelerate.lagalt_backend.utils.exceptions.ProjectNotFoundException;
+import no.accelerate.lagalt_backend.utils.exceptions.SkillNotFoundException;
 import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +23,16 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final ApplicationRepository applicationRepository;
+    private final SkillRepository skillRepository;
     private final ApplicationService applicationService;
     private final CommentService commentService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationService applicationService, ApplicationRepository applicationRepository, CommentService commentService) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationService applicationService, ApplicationRepository applicationRepository, CommentService commentService,SkillRepository skillRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.applicationService = applicationService;
         this.applicationRepository = applicationRepository;
+        this.skillRepository = skillRepository;
         this.commentService = commentService;
     }
 
@@ -175,6 +180,18 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public Set<String> findAllTags(int id) {
         return this.findById(id).getTags();
+    }
+
+    @Override
+    public void updateSkills(int id, int[] skillsIds) {
+        Project project = projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
+        Set<Skill> skills = new HashSet<>();
+        for (int skillId : skillsIds) {
+            Skill skill = skillRepository.findById(skillId).orElseThrow(() -> new SkillNotFoundException(skillId));
+            skills.add(skill);
+        }
+        project.setSkillsRequired(skills);
+        projectRepository.save(project);
     }
 
 }

@@ -18,4 +18,6 @@ public interface ProjectService extends CrudService<Project, Integer> {
 
     Set<Comment> findAllComments(int id);
     Set<String> findAllTags(int id);
+
+    public void updateSkills(int id, int[] skillsIds);
 }

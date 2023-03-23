@@ -13,6 +13,6 @@ public class ProjectUpdateDTO {
     private Category category;
     private String status;
     private String img_url;
-    private Set<Integer> skillsRequired;
+    private Set<String> skillsRequired;
     private Set<String> tags;
 }
