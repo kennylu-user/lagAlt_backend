@@ -4,6 +4,7 @@ import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectPostDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectUpdateDTO;
+import no.accelerate.lagalt_backend.repositories.SkillRepository;
 import no.accelerate.lagalt_backend.services.user.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class ProjectMapper {
     @Autowired
+    SkillRepository skillRepository;
     UserService userService;
     @Mapping(target = "owner", source = "owner", qualifiedByName = "idToOwner")
     @Mapping(target = "skillsRequired", ignore = true)
@@ -24,14 +26,14 @@ public abstract class ProjectMapper {
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "applications", ignore = true)
     @Mapping(target = "members", ignore = true)
-    @Mapping(target = "skillsRequired", ignore = true)
+    @Mapping(target = "skillsRequired", source = "skillsRequired", qualifiedByName = "skillsTitlesToSkills")
     public abstract Project projectUpdateDtoToProject(ProjectUpdateDTO projectUpdateDTO);
 
     @Mapping(target = "owner", source = "owner", qualifiedByName = "userToIds")
     @Mapping(target = "applications", source = "applications", qualifiedByName = "applicationUserToIds")
     @Mapping(target = "members", source = "members", qualifiedByName = "userMembersToIds")
     @Mapping(target = "comments", source = "comments", qualifiedByName = "commentsToIds")
-    @Mapping(target = "skillsRequired", source = "skillsRequired", qualifiedByName = "skillsToIds")
+    @Mapping(target = "skillsRequired", source = "skillsRequired", qualifiedByName = "skillsToTitles")
     public abstract ProjectDTO projectToProjectDto(Project project);
 
     public abstract Collection<ProjectDTO> projectToProjectDto(Collection<Project> projects);
@@ -65,10 +67,18 @@ public abstract class ProjectMapper {
         return source.stream().map(u -> u.getId()
         ).collect(Collectors.toSet());
     }
-    @Named("skillsToIds")
-    Set<Integer> skillsToIds(Set<Skill> source) {
+    @Named("skillsToTitles")
+    Set<String> skillsToTitles(Set<Skill> source) {
         if (source == null) return null;
-        return source.stream().map(u -> u.getId()
+        return source.stream().map(u -> u.getTitle()
         ).collect(Collectors.toSet());
+    }
+
+    @Named("skillsTitlesToSkills")
+    Set<Skill> skillsTitlesToSkills(Set<String> source) {
+        if (source == null) return null;
+        return source.stream().map(title -> skillRepository.findByTitle(title)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid skill title: " + title)))
+                .collect(Collectors.toSet());
     }
 }

@@ -15,4 +15,5 @@ public interface SkillService extends CrudService<Skill, Integer> {
     public void updateProjects(int skill_id, int[] project_ids);
 
     public Set<Project> findAllProjects(int skill_id);
+
 }

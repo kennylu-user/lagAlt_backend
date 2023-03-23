@@ -3,8 +3,11 @@ package no.accelerate.lagalt_backend.services.project;
 import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.repositories.ApplicationRepository;
 import no.accelerate.lagalt_backend.repositories.ProjectRepository;
+import no.accelerate.lagalt_backend.repositories.SkillRepository;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
+import no.accelerate.lagalt_backend.services.skill.SkillService;
 import no.accelerate.lagalt_backend.utils.exceptions.ProjectNotFoundException;
+import no.accelerate.lagalt_backend.utils.exceptions.SkillNotFoundException;
 import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +21,14 @@ public class ProjectServiceImpl implements ProjectService{
     private final UserRepository userRepository;
 
     private final ApplicationRepository applicationRepository;
+    private final SkillRepository skillRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationRepository applicationRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationRepository applicationRepository,
+                              SkillRepository skillRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.applicationRepository = applicationRepository;
+        this.skillRepository = skillRepository;
     }
 
 
@@ -155,6 +161,18 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public Set<String> findAllTags(int id) {
         return this.findById(id).getTags();
+    }
+
+    @Override
+    public void updateSkills(int id, int[] skillsIds) {
+        Project project = projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id));
+        Set<Skill> skills = new HashSet<>();
+        for (int skillId : skillsIds) {
+            Skill skill = skillRepository.findById(skillId).orElseThrow(() -> new SkillNotFoundException(skillId));
+            skills.add(skill);
+        }
+        project.setSkillsRequired(skills);
+        projectRepository.save(project);
     }
 
 }

@@ -6,9 +6,9 @@ INSERT INTO users (id,f_name, l_name,description, hidden)
 VALUES ( 3,'sug',' meg', 'Dyktig',false);
 
 INSERT INTO project (description, status, category, title, owner_id)
-VALUES ('first','done', 'MUSIC', 'cool project',2);
+VALUES ('first','done', 'Musikk', 'cool project',2);
 INSERT INTO project (description, status, category, title, owner_id)
-VALUES ('second','pending', 'FILM', 'bad project',2);
+VALUES ('second','pending', 'Film', 'bad project',2);
 
 INSERT INTO project_tags (project_id,tags) VALUES (1,'Instrumental');
 INSERT INTO project_tags (project_id,tags) VALUES (1,'Sounds');

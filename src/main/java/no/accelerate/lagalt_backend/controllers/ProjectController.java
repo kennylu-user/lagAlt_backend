@@ -308,7 +308,25 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findAllTags(id));
     }
 
-
+    @Operation(summary = "Update skills")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Project successfully updated",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @PutMapping("{id}/skillsRequired")
+    public ResponseEntity updateSkills(@PathVariable int id, @RequestBody int[] skillsIds){
+        projectService.updateSkills(id, skillsIds);
+        return ResponseEntity.noContent().build();
+    }
 
 
 
