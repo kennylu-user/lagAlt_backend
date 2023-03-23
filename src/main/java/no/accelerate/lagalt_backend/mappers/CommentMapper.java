@@ -41,8 +41,8 @@ public abstract class CommentMapper {
     public abstract Collection<CommentDTO> commentToCommentDTO(Collection<Comment> comments);
 
     @Named("usersToIds")
-    int map1(User source) {
-        if (source == null) return -1;
+    String map1(User source) {
+        if (source == null) return null;
         return source.getId();
     }
 
@@ -66,7 +66,7 @@ public abstract class CommentMapper {
     }
 
     @Named("idToUser")
-    User mapToUser(Integer id) {
+    User mapToUser(String id) {
         return userService.findById(id);
     }
 

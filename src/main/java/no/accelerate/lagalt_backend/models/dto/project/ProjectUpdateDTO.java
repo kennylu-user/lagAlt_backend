@@ -3,6 +3,8 @@ package no.accelerate.lagalt_backend.models.dto.project;
 import lombok.Data;
 import no.accelerate.lagalt_backend.models.enums.Category;
 
+import java.util.Set;
+
 @Data
 public class ProjectUpdateDTO {
     private int id;
@@ -11,5 +13,6 @@ public class ProjectUpdateDTO {
     private Category category;
     private String status;
     private String img_url;
-
+    private Set<Integer> skillsRequired;
+    private Set<String> tags;
 }

@@ -3,7 +3,7 @@ package no.accelerate.lagalt_backend.services.comment;
 import no.accelerate.lagalt_backend.models.Comment;
 import no.accelerate.lagalt_backend.repositories.CommentRepository;
 
-import no.accelerate.lagalt_backend.utils.error.exceptions.CommentNotFoundException;
+import no.accelerate.lagalt_backend.utils.exceptions.CommentNotFoundException;
 
 
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public Comment findById(Integer integer) {
-        return commentRepository.findById(integer).orElseThrow(() -> new RuntimeException());
+        return commentRepository.findById(integer).orElseThrow(() -> new CommentNotFoundException(integer));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public void deleteById(Integer integer) {
-
+        commentRepository.deleteById(integer);
     }
 
     @Override

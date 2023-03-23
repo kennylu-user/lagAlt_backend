@@ -4,7 +4,6 @@ import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectPostDTO;
 import no.accelerate.lagalt_backend.models.dto.project.ProjectUpdateDTO;
-import no.accelerate.lagalt_backend.models.dto.user.UserDTO;
 import no.accelerate.lagalt_backend.services.user.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,10 +19,12 @@ public abstract class ProjectMapper {
     @Autowired
     UserService userService;
     @Mapping(target = "owner", source = "owner", qualifiedByName = "idToOwner")
+    @Mapping(target = "skillsRequired", ignore = true)
     public abstract Project projectPostDtoToProject(ProjectPostDTO projectDto);
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "applications", ignore = true)
     @Mapping(target = "members", ignore = true)
+    @Mapping(target = "skillsRequired", ignore = true)
     public abstract Project projectUpdateDtoToProject(ProjectUpdateDTO projectUpdateDTO);
 
     @Mapping(target = "owner", source = "owner", qualifiedByName = "userToIds")
@@ -42,19 +43,19 @@ public abstract class ProjectMapper {
         ).collect(Collectors.toSet());
     }
     @Named("userMembersToIds")
-    Set<Integer> membersToIds(Set<User> source) {
+    Set<String> membersToIds(Set<User> source) {
         if (source == null) return null;
         return source.stream().map(u -> u.getId()
         ).collect(Collectors.toSet());
     }
     @Named("userToIds")
-    int map(User source){
-        if (source == null) return -1;
+    String map(User source){
+        if (source == null) return null;
         return source.getId();
     }
 
     @Named("idToOwner")
-    User mapToUser(Integer id) {
+    User mapToUser(String id) {
         return userService.findById(id);
     }
 

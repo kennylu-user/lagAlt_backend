@@ -168,7 +168,7 @@ public class SkillController {
     })
     //Updates users that have a skill.
     @PutMapping("{id}/users")
-    public ResponseEntity updateUsers(@PathVariable int id, @RequestBody int[] user_ids){
+    public ResponseEntity updateUsers(@PathVariable int id, @RequestBody String[] user_ids){
         skillService.updateUsers(id, user_ids);
         return ResponseEntity.noContent().build();
     }
