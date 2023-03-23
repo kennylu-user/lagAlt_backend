@@ -2,6 +2,9 @@ package no.accelerate.lagalt_backend.services.user;
 
 import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
+import no.accelerate.lagalt_backend.services.application.ApplicationService;
+import no.accelerate.lagalt_backend.services.comment.CommentService;
+import no.accelerate.lagalt_backend.services.project.ProjectService;
 import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -12,9 +15,15 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final ApplicationService applicationService;
+    private final ProjectService projectService;
+    private final CommentService commentService;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ApplicationService applicationService, ProjectService projectService, CommentService commentService) {
         this.userRepository = userRepository;
+        this.applicationService = applicationService;
+        this.projectService = projectService;
+        this.commentService = commentService;
     }
 
     @Override
@@ -46,8 +55,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(String integer) {
-        userRepository.deleteById(integer);
+    public void deleteById(String id) {
+        Set<Application> applications = this.findAllUserApplications(id);
+        Set<Project> projects = this.findAllProjectsOwned(id);
+        Set<Comment> comments = this.findAllComments(id);
+        for (Application a : applications) {
+            applicationService.deleteById(a.getId());
+        }
+        for (Project p : projects) {
+            projectService.deleteById(p.getId());
+        }
+        for (Comment c : comments) {
+            commentService.deleteById(c.getId());
+        }
+        userRepository.deleteById(id);
     }
     @Override
     public Set<Project> findAllProjectsOwned(String id) {

@@ -6,6 +6,8 @@ import no.accelerate.lagalt_backend.repositories.ProjectRepository;
 import no.accelerate.lagalt_backend.repositories.SkillRepository;
 import no.accelerate.lagalt_backend.repositories.UserRepository;
 import no.accelerate.lagalt_backend.services.skill.SkillService;
+import no.accelerate.lagalt_backend.services.application.ApplicationService;
+import no.accelerate.lagalt_backend.services.comment.CommentService;
 import no.accelerate.lagalt_backend.utils.exceptions.ProjectNotFoundException;
 import no.accelerate.lagalt_backend.utils.exceptions.SkillNotFoundException;
 import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
@@ -14,21 +16,24 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-
     private final ApplicationRepository applicationRepository;
     private final SkillRepository skillRepository;
+    private final ApplicationService applicationService;
+    private final CommentService commentService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationRepository applicationRepository,
-                              SkillRepository skillRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationService applicationService, ApplicationRepository applicationRepository, CommentService commentService,SkillRepository skillRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
+        this.applicationService = applicationService;
         this.applicationRepository = applicationRepository;
         this.skillRepository = skillRepository;
+        this.commentService = commentService;
     }
 
 
@@ -56,6 +61,20 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public void deleteById(Integer id) {
+        Set<Application> applications = this.findAllProjectApplications(id);
+        Set<Comment> comments = this.findAllComments(id);
+        Set<String> members = this.findAllMembers(id)
+                .stream()
+                .map(user -> user.getId())
+                .collect(Collectors.toSet());
+        for (Application a : applications) {
+            applicationService.deleteById(a.getId());
+        }
+        for (Comment c : comments) {
+            commentService.deleteById(c.getId());
+        }
+        this.removeMembersByIds(id,members);
+
         projectRepository.deleteById(id);
     }
 

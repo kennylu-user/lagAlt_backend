@@ -6,6 +6,7 @@ import no.accelerate.lagalt_backend.models.Application;
 import no.accelerate.lagalt_backend.models.Comment;
 import no.accelerate.lagalt_backend.models.Project;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data

@@ -55,7 +55,7 @@ public class ApplicationController {
 
     @Operation(summary = "Adds new application")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "Application was successfully added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Application.class)) }),
@@ -77,7 +77,7 @@ public class ApplicationController {
 
     @Operation(summary = "Get an application by id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Application.class)) }),
