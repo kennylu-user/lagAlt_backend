@@ -51,7 +51,7 @@ public class CommentController {
     }
     @Operation(summary = "Adds a new comment")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "Comment was successfully added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Comment.class)) }),
@@ -92,7 +92,7 @@ public class CommentController {
     }
     @Operation(summary = "Get a comment by id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Comment.class)) }),

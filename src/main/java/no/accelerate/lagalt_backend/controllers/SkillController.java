@@ -63,9 +63,10 @@ public class SkillController {
     public ResponseEntity getAll() {
         return ResponseEntity.ok(skillMapper.skillToSkillDto(skillService.findAll()));
     }
+
     @Operation(summary = "Adds a new skill")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "Skill was successfully added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Skill.class)) }),
@@ -106,7 +107,7 @@ public class SkillController {
     }
     @Operation(summary = "Get a skill by id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Skill.class)) }),

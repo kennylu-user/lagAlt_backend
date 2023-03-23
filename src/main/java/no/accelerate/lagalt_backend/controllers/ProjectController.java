@@ -102,8 +102,8 @@ public class ProjectController {
     }
     @Operation(summary = "Get a project by id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Success",
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully got project by supplied ID",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Project.class)) }),
             @ApiResponse(responseCode = "400",
@@ -145,7 +145,7 @@ public class ProjectController {
 
     @Operation(summary = "Get all applications in project")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all applications in project",
                     content = {@Content(
                             mediaType = "application/json",
@@ -166,7 +166,7 @@ public class ProjectController {
     }
     @Operation(summary = "Get all members in project")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all members in project",
                     content = {@Content(
                             mediaType = "application/json",
@@ -227,7 +227,7 @@ public class ProjectController {
     @Operation(summary = "Remove existing users from project as members")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "Project successfully updated",
+                    description = "Project successfully updated, member removed",
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
@@ -246,7 +246,7 @@ public class ProjectController {
 
     @Operation(summary = "Get all required skills in project")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all skills in user",
                     content = {@Content(
                             mediaType = "application/json",
@@ -267,7 +267,7 @@ public class ProjectController {
     }
     @Operation(summary = "Get all comments in project")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all comments in user",
                     content = {@Content(
                             mediaType = "application/json",
@@ -288,7 +288,7 @@ public class ProjectController {
     }
     @Operation(summary = "Get all tags in project")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all comments in user",
                     content = {@Content(
                             mediaType = "application/json",

@@ -67,7 +67,7 @@ public class UserController {
 
     @Operation(summary = "Adds new user")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "User was successfully added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = User.class)) }),
@@ -89,7 +89,7 @@ public class UserController {
 
     @Operation(summary = "Get a user by id")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = User.class)) }),
@@ -153,7 +153,7 @@ public class UserController {
 
     @Operation(summary = "Get all projectsOwned in user")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all projects owned in user",
                     content = {@Content(
                             mediaType = "application/json",
@@ -175,7 +175,7 @@ public class UserController {
 
     @Operation(summary = "Get all projectsParticipated in user")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all projects participated in user",
                     content = {@Content(
                             mediaType = "application/json",
@@ -196,7 +196,7 @@ public class UserController {
     }
     @Operation(summary = "Get all user applications in user")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all applications in user",
                     content = {@Content(
                             mediaType = "application/json",
@@ -217,7 +217,7 @@ public class UserController {
     }
     @Operation(summary = "Add user application to project")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "Project successfully applied to",
                     content = @Content),
             @ApiResponse(responseCode = "400",
@@ -239,7 +239,7 @@ public class UserController {
 
     @Operation(summary = "Get all skills in user")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all skills in user",
                     content = {@Content(
                             mediaType = "application/json",
@@ -260,7 +260,7 @@ public class UserController {
     }
     @Operation(summary = "Get all comments in user")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved all comments in user",
                     content = {@Content(
                             mediaType = "application/json",
