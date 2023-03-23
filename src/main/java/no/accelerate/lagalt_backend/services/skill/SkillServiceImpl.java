@@ -31,7 +31,7 @@ public class SkillServiceImpl implements SkillService{
 
     @Override
     public Skill findById(Integer integer) {
-        return skillRepository.findById(integer).orElseThrow(() -> new RuntimeException());
+        return skillRepository.findById(integer).orElseThrow(() -> new SkillNotFoundException(integer));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SkillServiceImpl implements SkillService{
 
     @Override
     public void deleteById(Integer integer) {
-
+        skillRepository.deleteById(integer);
     }
 
     @Override
@@ -55,11 +55,11 @@ public class SkillServiceImpl implements SkillService{
     }
 
     @Override
-    public void updateUsers(int skill_id, int[] user_ids) {
+    public void updateUsers(int skill_id, String[] user_ids) {
         Skill skill = skillRepository.findById(skill_id).orElseThrow(() -> new SkillNotFoundException(skill_id));
         Set<User> users = new HashSet<>();
 
-        for (int id: user_ids) {
+        for (String id: user_ids) {
             User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
             users.add(user);
             user.getSkills().add(skill);

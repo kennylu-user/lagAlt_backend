@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -11,15 +12,16 @@ import java.util.Set;
 @Setter
 @Table(name = "users")
 public class User {
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(unique = true, nullable = false, updatable = false)
+    private String id;
 
     @Column(length = 50, nullable = false)
     private String f_name;
     @Column(length = 50, nullable = false)
     private String l_name;
-    @Column(length = 100)
+    @Column(length = 1000)
     private String description;
 
 
