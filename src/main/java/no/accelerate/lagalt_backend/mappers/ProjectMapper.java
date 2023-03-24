@@ -19,9 +19,10 @@ import java.util.stream.Collectors;
 public abstract class ProjectMapper {
     @Autowired
     SkillRepository skillRepository;
+    @Autowired
     UserService userService;
     @Mapping(target = "owner", source = "owner", qualifiedByName = "idToOwner")
-    @Mapping(target = "skillsRequired", ignore = true)
+    @Mapping(target = "skillsRequired", source = "skillsRequired", qualifiedByName = "skillsTitlesToSkills")
     public abstract Project projectPostDtoToProject(ProjectPostDTO projectDto);
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "applications", ignore = true)

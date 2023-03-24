@@ -124,7 +124,7 @@ public class UserController {
     @PutMapping("{id}")
     public ResponseEntity update(@RequestBody UserUpdateDTO userDTO, @PathVariable String id) {
         // Validates if body is correct
-        if (id != userDTO.getId())
+        if (!id.equals(userDTO.getId()))
             return ResponseEntity.badRequest().build();
         userService.update(userMapper.userUpdateDtoToUser(userDTO));
         return ResponseEntity.noContent().build();
