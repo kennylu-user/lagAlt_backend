@@ -7,6 +7,6 @@ public class ApplicationDTO {
     private int id;
     private String motivation;
     private String status;
-    private int user;
+    private String user;
     private int project;
 }

@@ -1,10 +1,8 @@
 package no.accelerate.lagalt_backend.models;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -12,7 +10,6 @@ import java.util.Set;
 @Setter
 @Table(name = "users")
 public class User {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(unique = true, nullable = false, updatable = false)
     private String id;
