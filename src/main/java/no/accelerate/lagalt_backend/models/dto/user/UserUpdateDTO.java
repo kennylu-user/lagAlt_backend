@@ -1,8 +1,8 @@
 package no.accelerate.lagalt_backend.models.dto.user;
 
 import lombok.Data;
+import java.util.Set;
 
-import java.time.LocalDate;
 
 @Data
 public class UserUpdateDTO {
@@ -11,4 +11,5 @@ public class UserUpdateDTO {
     private String l_name;
     private String description;
     private boolean hidden;
+    private Set<String> skills;
 }

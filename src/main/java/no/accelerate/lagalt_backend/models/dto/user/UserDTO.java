@@ -19,7 +19,7 @@ public class UserDTO {
     private Set<Integer> projectsOwned;
     private Set<Integer> projectsParticipated;
     private Set<Integer> comments;
-    private Set<Integer> skills;
+    private Set<String> skills;
     private boolean hidden;
 
 }
