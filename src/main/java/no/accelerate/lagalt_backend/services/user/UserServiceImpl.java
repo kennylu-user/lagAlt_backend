@@ -10,10 +10,7 @@ import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,8 +110,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<Project> findAllRecommended(String id) {
-        Set<Project> recommended = new HashSet<>();
+    public List<Project> findAllRecommended(String id) {
+        List<Project> recommended = new ArrayList<>();
         Set<Skill> allSkills = findAllSkills(id);
         Set<Project> allProj = projectService.findAll().stream().collect(Collectors.toSet());
         for (Skill s : allSkills) {

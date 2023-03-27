@@ -205,25 +205,25 @@ public class ProjectController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Approve deny applications")
-    @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Project successfully updated",
-                    content = @Content),
-            @ApiResponse(responseCode = "400",
-                    description = "Malformed request",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
-            @ApiResponse(responseCode = "404",
-                    description = "Not found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) })
-    })
-    @PutMapping("{id}/applications")
-    public ResponseEntity updateApplications(@PathVariable int id){
-        projectService.test(id);
-        return ResponseEntity.noContent().build();
-    }
+//    @Operation(summary = "Approve deny applications")
+//    @ApiResponses( value = {
+//            @ApiResponse(responseCode = "204",
+//                    description = "Project successfully updated",
+//                    content = @Content),
+//            @ApiResponse(responseCode = "400",
+//                    description = "Malformed request",
+//                    content = { @Content(mediaType = "application/json",
+//                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+//            @ApiResponse(responseCode = "404",
+//                    description = "Not found",
+//                    content = { @Content(mediaType = "application/json",
+//                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+//    })
+//    @PutMapping("{id}/applications")
+//    public ResponseEntity updateApplications(@PathVariable int id){
+//        projectService.test(id);
+//        return ResponseEntity.noContent().build();
+//    }
     @Operation(summary = "Remove existing users from project as members")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",

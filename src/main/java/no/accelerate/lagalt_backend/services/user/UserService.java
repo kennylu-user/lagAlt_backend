@@ -4,6 +4,7 @@ import no.accelerate.lagalt_backend.models.*;
 import no.accelerate.lagalt_backend.services.CrudService;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public interface UserService extends CrudService<User,String> {
@@ -17,5 +18,5 @@ public interface UserService extends CrudService<User,String> {
 
     Set<Comment> findAllComments(String id);
 
-    Set<Project> findAllRecommended(String id);
+    List<Project> findAllRecommended(String id);
 }

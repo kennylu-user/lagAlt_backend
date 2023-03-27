@@ -22,16 +22,16 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-    private final ApplicationRepository applicationRepository;
+//    private final ApplicationRepository applicationRepository;
     private final SkillRepository skillRepository;
-    private final ApplicationService applicationService;
+//    private final ApplicationService applicationService;
     private final CommentService commentService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, ApplicationService applicationService, ApplicationRepository applicationRepository, CommentService commentService,SkillRepository skillRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository,  CommentService commentService,SkillRepository skillRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
-        this.applicationService = applicationService;
-        this.applicationRepository = applicationRepository;
+//        this.applicationService = applicationService;
+//        this.applicationRepository = applicationRepository;
         this.skillRepository = skillRepository;
         this.commentService = commentService;
     }
@@ -62,18 +62,30 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public void deleteById(Integer id) {
         Set<Application> applications = this.findAllProjectApplications(id);
+        Set<Skill> skills = this.findAllSkills(id);
         Set<Comment> comments = this.findAllComments(id);
         Set<String> members = this.findAllMembers(id)
                 .stream()
                 .map(user -> user.getId())
                 .collect(Collectors.toSet());
         for (Application a : applications) {
-            applicationService.deleteById(a.getId());
+//            applicationService.deleteById(a.getId());
+            a.setProject(null);
         }
+        System.out.println(comments);
         for (Comment c : comments) {
-            commentService.deleteById(c.getId());
+            System.out.println(c.getId());
+            c.setProject(null);
+//            commentService.deleteById(c.getId());
+            System.out.println("REMOVED");
         }
+        System.out.println(comments);
+        System.out.println("REMOVE MEMBERS");
+//        for (Skill s : skills) {
+//            s.
+//        }
         this.removeMembersByIds(id,members);
+        System.out.println("DONE");
 
         projectRepository.deleteById(id);
     }
@@ -119,24 +131,24 @@ public class ProjectServiceImpl implements ProjectService{
 
     }
 
-    @Override
-    public void test(int id) {
-        Project p = this.findById(id);
-        Set<String> membersToBe = new HashSet<>();
-        for (Application a :p.getApplications()
-             ) {
-            if(a.getStatus().equals("APPROVED")){
-                membersToBe.add(a.getUser().getId());
-                a.setProject(null);
-            } else if (a.getStatus().equals("DENIED")) {
-                a.setProject(null);
-            }
-
-            applicationRepository.save(a);
-        }
-        this.updateMembers(id, membersToBe);
-        this.projectRepository.save(p);
-    }
+//    @Override
+//    public void test(int id) {
+//        Project p = this.findById(id);
+//        Set<String> membersToBe = new HashSet<>();
+//        for (Application a :p.getApplications()
+//             ) {
+//            if(a.getStatus().equals("APPROVED")){
+//                membersToBe.add(a.getUser().getId());
+//                a.setProject(null);
+//            } else if (a.getStatus().equals("DENIED")) {
+//                a.setProject(null);
+//            }
+//
+////            applicationRepository.save(a);
+//        }
+//        this.updateMembers(id, membersToBe);
+//        this.projectRepository.save(p);
+//    }
 
     @Override
     public void removeMembersByIds(int id, Set<String> user_ids) {
