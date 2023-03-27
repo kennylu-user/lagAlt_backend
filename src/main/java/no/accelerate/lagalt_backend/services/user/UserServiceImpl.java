@@ -124,8 +124,6 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        System.out.println(recommended);
-
         return recommended;
     }
 
