@@ -8,7 +8,7 @@ import java.util.Set;
 public class CommentDTO {
     private int id;
     private String message;
-    private int user;
+    private String user;
     private int project;
     private int repliedTo;
     private Set<Integer> replies;

@@ -7,7 +7,7 @@ import lombok.Data;
 public class CommentPostDTO {
     private int id;
     private String message;
-    private int user;
+    private String user;
     private int project;
     private int repliedTo;
 }
