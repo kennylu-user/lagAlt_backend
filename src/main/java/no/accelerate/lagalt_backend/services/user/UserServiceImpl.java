@@ -5,12 +5,16 @@ import no.accelerate.lagalt_backend.repositories.UserRepository;
 import no.accelerate.lagalt_backend.services.application.ApplicationService;
 import no.accelerate.lagalt_backend.services.comment.CommentService;
 import no.accelerate.lagalt_backend.services.project.ProjectService;
+import no.accelerate.lagalt_backend.services.skill.SkillService;
 import no.accelerate.lagalt_backend.utils.exceptions.UserNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,12 +22,14 @@ public class UserServiceImpl implements UserService {
     private final ApplicationService applicationService;
     private final ProjectService projectService;
     private final CommentService commentService;
+    private final SkillService skillService;
 
-    public UserServiceImpl(UserRepository userRepository, ApplicationService applicationService, ProjectService projectService, CommentService commentService) {
+    public UserServiceImpl(UserRepository userRepository, ApplicationService applicationService, ProjectService projectService, CommentService commentService, SkillService skillService) {
         this.userRepository = userRepository;
         this.applicationService = applicationService;
         this.projectService = projectService;
         this.commentService = commentService;
+        this.skillService = skillService;
     }
 
     @Override
@@ -104,6 +110,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<Comment> findAllComments(String id) {
         return this.findById(id).getComments();
+    }
+
+    @Override
+    public Set<Project> findAllRecommended(String id) {
+        Set<Project> recommended = new HashSet<>();
+        Set<Skill> allSkills = findAllSkills(id);
+        for (Skill s : allSkills) {
+            for (Project p : s.getProjects()) {
+                System.out.println(p);
+                if(!recommended.contains(p)){
+                    recommended.add(p);
+                }
+            }
+        }
+        System.out.println(recommended);
+
+        return recommended;
     }
 
 

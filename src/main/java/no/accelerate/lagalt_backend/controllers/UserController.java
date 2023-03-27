@@ -279,6 +279,27 @@ public class UserController {
     public ResponseEntity getAllComments(@PathVariable String id) {
         return ResponseEntity.ok(commentMapper.commentToCommentDTO(userService.findAllComments(id)));
     }
+    @Operation(summary = "Get all recommended projects in user")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully retrieved all comments in user",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content ={ @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "User not found with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+    })
+    @GetMapping("{id}/getRecommendedProjects")
+    public ResponseEntity getAllRecommended(@PathVariable String id) {
+        return ResponseEntity.ok(projectMapper.projectToProjectDto(userService.findAllRecommended(id)));
+    }
 
 
 }

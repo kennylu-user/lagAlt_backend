@@ -16,4 +16,6 @@ public interface UserService extends CrudService<User,String> {
     Set<Skill> findAllSkills(String id);
 
     Set<Comment> findAllComments(String id);
+
+    Set<Project> findAllRecommended(String id);
 }
