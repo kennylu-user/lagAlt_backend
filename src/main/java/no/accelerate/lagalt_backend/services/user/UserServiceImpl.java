@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
     public Set<Project> findAllRecommended(String id) {
         Set<Project> recommended = new HashSet<>();
         Set<Skill> allSkills = findAllSkills(id);
+        Set<Project> allProj = projectService.findAll().stream().collect(Collectors.toSet());
         for (Skill s : allSkills) {
             for (Project p : s.getProjects()) {
                 System.out.println(p);
@@ -124,6 +125,12 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+        for (Project p : allProj) {
+            if(!recommended.contains(p)){
+                recommended.add(p);
+            }
+        }
+
         return recommended;
     }
 
