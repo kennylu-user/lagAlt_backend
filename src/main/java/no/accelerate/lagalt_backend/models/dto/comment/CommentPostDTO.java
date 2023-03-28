@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class CommentPostDTO {
-    private int id;
+    private Integer id;
     private String message;
     private String user;
     private int project;
-    private int repliedTo;
+    private Integer repliedTo;
 }
