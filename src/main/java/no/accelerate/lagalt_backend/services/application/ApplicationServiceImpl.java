@@ -54,7 +54,12 @@ public class ApplicationServiceImpl implements ApplicationService{
         if(a.getStatus().equals("APPROVED")){
             membersToBe.add(entity.getUser().getId());
             entity.setProject(null);
+            entity.setUser(null);
+        } else if (a.getStatus().equals("DENIED")) {
+            entity.setProject(null);
+            entity.setUser(null);
         }
+
         applicationRepository.save(entity);
         projectService.updateMembers(p1.getId(), membersToBe);
         this.projectRepository.save(p1);
