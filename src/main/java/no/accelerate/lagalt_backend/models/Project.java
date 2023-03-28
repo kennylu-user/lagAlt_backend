@@ -17,7 +17,7 @@ public class Project {
     private int id;
     @Column(length = 50,nullable = false)
     private String title;
-    @Column(length = 500,nullable = false)
+    @Column(length = 5000,nullable = false)
     private String description;
     @Column(length = 100,nullable = false)
     private String status;
